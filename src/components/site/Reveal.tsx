@@ -1,7 +1,7 @@
 import { useEffect, useRef, type ElementType, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-export function Reveal({ as: Tag = "div", className, children, delay = 0 }: { as?: ElementType; className?: string; children: ReactNode; delay?: number }) {
+export function Reveal({ as: Tag = "div", className, children, delay = 0 }: { as?: ElementType; className?: string | undefined; children: ReactNode; delay?: number }) {
   const ref = useRef<HTMLElement>(null);
   useEffect(() => {
     const el = ref.current;
@@ -25,7 +25,7 @@ export function Reveal({ as: Tag = "div", className, children, delay = 0 }: { as
 }
 
 /** İnce rüzgâr çizgileri — dekoratif, ekran okuyuculardan gizli. */
-export function WindLines({ className }: { className?: string }) {
+export function WindLines({ className }: { className?: string | undefined }) {
   return (
     <svg aria-hidden className={cn("pointer-events-none absolute inset-0 h-full w-full", className)} viewBox="0 0 1200 600" preserveAspectRatio="none" fill="none">
       {[90, 180, 300, 420, 510].map((y, i) => (
