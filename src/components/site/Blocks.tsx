@@ -27,7 +27,7 @@ export function Crumbs({ items }: { items: { label: string; to?: string; params?
   );
 }
 
-export function PageIntro({ eyebrow, title, intro, crumbs, children, className }: { eyebrow: string; title: ReactNode; intro?: string; crumbs?: Parameters<typeof Crumbs>[0]["items"]; children?: ReactNode; className?: string }) {
+export function PageIntro({ eyebrow, title, intro, crumbs, children, className }: { eyebrow: string; title: ReactNode; intro?: string; crumbs?: Parameters<typeof Crumbs>[0]["items"]; children?: ReactNode; className?: string | undefined }) {
   return (
     <section className={cn("container-x pb-14 pt-10 md:pb-20 md:pt-14", className)}>
       {crumbs && <Crumbs items={crumbs} />}
@@ -68,7 +68,7 @@ export function ProjectCard({ project, size = "md" }: { project: Project; size?:
   );
 }
 
-export function Faq({ items, className }: { items: { q: string; a: string }[]; className?: string }) {
+export function Faq({ items, className }: { items: { q: string; a: string }[]; className?: string | undefined }) {
   return (
     <div className={cn("divide-y border-y", className)}>
       {items.map((f) => (
@@ -84,7 +84,7 @@ export function Faq({ items, className }: { items: { q: string; a: string }[]; c
   );
 }
 
-export function CtaBand({ title = "İhtiyacınızı konuşalım.", text = "Birkaç soruyu yanıtlayın, kapsamı birlikte netleştirip size özel teklif hazırlayalım.", search }: { title?: string; text?: string; search?: { hizmet?: string; paket?: string } }) {
+export function CtaBand({ title = "İhtiyacınızı konuşalım.", text = "Birkaç soruyu yanıtlayın, kapsamı birlikte netleştirip size özel teklif hazırlayalım.", search }: { title?: string; text?: string; search?: { hizmet?: string | undefined; paket?: string | undefined } }) {
   return (
     <section className="container-x py-16 md:py-24">
       <div className="relative overflow-hidden rounded-2xl grain-ink px-6 py-14 text-ink-foreground md:px-14 md:py-20">
@@ -104,7 +104,7 @@ export function CtaBand({ title = "İhtiyacınızı konuşalım.", text = "Birka
   );
 }
 
-export function SectionHead({ eyebrow, title, text, className, tone }: { eyebrow: string; title: ReactNode; text?: string; className?: string; tone?: "ink" }) {
+export function SectionHead({ eyebrow, title, text, className, tone }: { eyebrow: string; title: ReactNode; text?: string; className?: string | undefined; tone?: "ink" }) {
   return (
     <div className={cn("max-w-3xl", className)}>
       <p className={cn("eyebrow", tone === "ink" ? "text-cyan" : "text-muted-foreground")}>{eyebrow}</p>

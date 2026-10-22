@@ -9,7 +9,7 @@ import flatlay from "@/assets/ecommerce-flatlay.jpg";
 
 export const images = { heroCafe, production, chair, drone, flatlay };
 
-export function SampleBadge({ className, children = "Örnek uygulama" }: { className?: string; children?: ReactNode }) {
+export function SampleBadge({ className, children = "Örnek uygulama" }: { className?: string | undefined; children?: ReactNode }) {
   return (
     <span className={cn("inline-flex items-center gap-1.5 rounded-full bg-paper/90 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-ink shadow-sm", className)}>
       <span className="size-1.5 rounded-full bg-cyan" /> {children}
@@ -17,7 +17,7 @@ export function SampleBadge({ className, children = "Örnek uygulama" }: { class
   );
 }
 
-export function Phone({ children, className }: { children: ReactNode; className?: string }) {
+export function Phone({ children, className }: { children: ReactNode; className?: string | undefined }) {
   return (
     <div className={cn("relative w-[260px] shrink-0 rounded-[2.4rem] bg-ink p-2.5 shadow-float", className)}>
       <div className="absolute left-1/2 top-3 z-10 h-5 w-24 -translate-x-1/2 rounded-full bg-ink" />
@@ -26,7 +26,7 @@ export function Phone({ children, className }: { children: ReactNode; className?
   );
 }
 
-export function PhoneFeed({ className }: { className?: string }) {
+export function PhoneFeed({ className }: { className?: string | undefined }) {
   return (
     <Phone className={className}>
       <div className="flex items-center gap-2 px-3 pb-2 pt-9">
@@ -47,7 +47,7 @@ export function PhoneFeed({ className }: { className?: string }) {
   );
 }
 
-export function PhoneReels({ className, src = production, caption = "Mutfaktan masaya: yeni sezon tabakları" }: { className?: string; src?: string; caption?: string }) {
+export function PhoneReels({ className, src = production, caption = "Mutfaktan masaya: yeni sezon tabakları" }: { className?: string | undefined; src?: string; caption?: string }) {
   return (
     <Phone className={className}>
       <div className="relative aspect-[9/17]">
@@ -61,7 +61,7 @@ export function PhoneReels({ className, src = production, caption = "Mutfaktan m
   );
 }
 
-export function PhoneStory({ className }: { className?: string }) {
+export function PhoneStory({ className }: { className?: string | undefined }) {
   return (
     <Phone className={className}>
       <div className="relative aspect-[9/17] grain-ink p-5 pt-12 text-ink-foreground">
@@ -77,7 +77,7 @@ export function PhoneStory({ className }: { className?: string }) {
   );
 }
 
-export function Browser({ children, className, url = "ornekfirma.com" }: { children: ReactNode; className?: string; url?: string }) {
+export function Browser({ children, className, url = "ornekfirma.com" }: { children: ReactNode; className?: string | undefined; url?: string }) {
   return (
     <div className={cn("overflow-hidden rounded-xl border bg-card shadow-float", className)}>
       <div className="flex items-center gap-2 border-b bg-stone px-4 py-2.5">
@@ -89,7 +89,7 @@ export function Browser({ children, className, url = "ornekfirma.com" }: { child
   );
 }
 
-export function WebMock({ className }: { className?: string }) {
+export function WebMock({ className }: { className?: string | undefined }) {
   return (
     <Browser className={className} url="ornek-mobilya.com.tr">
       <div className="grid grid-cols-[1.1fr_1fr] items-center gap-6 p-6 md:p-8">
@@ -113,7 +113,7 @@ export function WebMock({ className }: { className?: string }) {
   );
 }
 
-export function MobileWebMock({ className }: { className?: string }) {
+export function MobileWebMock({ className }: { className?: string | undefined }) {
   return (
     <Phone className={cn("w-[200px]", className)}>
       <div className="px-4 pb-5 pt-10">
@@ -135,7 +135,7 @@ const calendar = [
   ["Cmt", "Reels", "Hafta sonu kahvaltısı"],
   ["Paz", "Story", "Müşteri anları (izinli)"],
 ];
-export function ContentCalendar({ className }: { className?: string }) {
+export function ContentCalendar({ className }: { className?: string | undefined }) {
   return (
     <div className={cn("rounded-xl border bg-card p-5 shadow-float", className)}>
       <div className="flex items-center justify-between">
@@ -156,7 +156,7 @@ export function ContentCalendar({ className }: { className?: string }) {
   );
 }
 
-export function AdsMock({ className }: { className?: string }) {
+export function AdsMock({ className }: { className?: string | undefined }) {
   const rows = [
     { name: "A · Ürün odaklı görsel", status: "Test ediliyor" },
     { name: "B · Üretim süreci videosu", status: "Test ediliyor" },
@@ -186,7 +186,7 @@ export function AdsMock({ className }: { className?: string }) {
   );
 }
 
-export function AutomationFlow({ className, tone = "ink" }: { className?: string; tone?: "ink" | "paper" }) {
+export function AutomationFlow({ className, tone = "ink" }: { className?: string | undefined; tone?: "ink" | "paper" }) {
   const steps = [
     { icon: FileText, k: "Girdi", t: "Web sitesinden teklif formu doldurulur" },
     { icon: Table2, k: "İşlem", t: "Talep tabloya kaydedilir, sektöre göre etiketlenir" },
@@ -214,7 +214,7 @@ export function AutomationFlow({ className, tone = "ink" }: { className?: string
   );
 }
 
-export function BrandBoard({ className }: { className?: string }) {
+export function BrandBoard({ className }: { className?: string | undefined }) {
   return (
     <div className={cn("grid grid-cols-2 gap-3", className)}>
       <div className="col-span-2 grid place-items-center rounded-xl surface-ink p-10">
@@ -242,7 +242,7 @@ export function BrandBoard({ className }: { className?: string }) {
   );
 }
 
-export function StoreMock({ className }: { className?: string }) {
+export function StoreMock({ className }: { className?: string | undefined }) {
   return (
     <Browser className={className} url="ornek-magaza.com/urun/nemlendirici-sprey">
       <div className="grid gap-5 p-5 sm:grid-cols-[1.1fr_1fr]">
@@ -260,7 +260,7 @@ export function StoreMock({ className }: { className?: string }) {
   );
 }
 
-export function OrderFlow({ className }: { className?: string }) {
+export function OrderFlow({ className }: { className?: string | undefined }) {
   const s = ["Sipariş alındı", "Ödeme onaylandı", "Kargoya verildi", "Müşteriye e-posta"];
   return (
     <div className={cn("flex flex-wrap items-center gap-2 text-xs font-semibold", className)}>
