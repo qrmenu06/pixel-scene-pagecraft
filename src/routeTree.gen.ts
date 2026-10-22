@@ -10,12 +10,48 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as HakkimizdaRouteImport } from './routes/hakkimizda'
+import { Route as IletisimRouteImport } from './routes/iletisim'
+import { Route as PaketlerRouteImport } from './routes/paketler'
+import { Route as ReferanslarRouteImport } from './routes/referanslar'
+import { Route as CalismalarIndexRouteImport } from './routes/calismalar.index'
+import { Route as CalismalarProjeRouteImport } from './routes/calismalar.$proje'
 import { Route as HizmetlerIndexRouteImport } from './routes/hizmetler.index'
 import { Route as HizmetlerSlugRouteImport } from './routes/hizmetler.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HakkimizdaRoute = HakkimizdaRouteImport.update({
+  id: '/hakkimizda',
+  path: '/hakkimizda',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IletisimRoute = IletisimRouteImport.update({
+  id: '/iletisim',
+  path: '/iletisim',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PaketlerRoute = PaketlerRouteImport.update({
+  id: '/paketler',
+  path: '/paketler',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReferanslarRoute = ReferanslarRouteImport.update({
+  id: '/referanslar',
+  path: '/referanslar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CalismalarIndexRoute = CalismalarIndexRouteImport.update({
+  id: '/calismalar/',
+  path: '/calismalar/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CalismalarProjeRoute = CalismalarProjeRouteImport.update({
+  id: '/calismalar/$proje',
+  path: '/calismalar/$proje',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HizmetlerIndexRoute = HizmetlerIndexRouteImport.update({
@@ -31,31 +67,83 @@ const HizmetlerSlugRoute = HizmetlerSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/hakkimizda': typeof HakkimizdaRoute
+  '/iletisim': typeof IletisimRoute
+  '/paketler': typeof PaketlerRoute
+  '/referanslar': typeof ReferanslarRoute
+  '/calismalar/$proje': typeof CalismalarProjeRoute
   '/hizmetler/$slug': typeof HizmetlerSlugRoute
+  '/calismalar/': typeof CalismalarIndexRoute
   '/hizmetler/': typeof HizmetlerIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/hakkimizda': typeof HakkimizdaRoute
+  '/iletisim': typeof IletisimRoute
+  '/paketler': typeof PaketlerRoute
+  '/referanslar': typeof ReferanslarRoute
+  '/calismalar/$proje': typeof CalismalarProjeRoute
   '/hizmetler/$slug': typeof HizmetlerSlugRoute
+  '/calismalar': typeof CalismalarIndexRoute
   '/hizmetler': typeof HizmetlerIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/hakkimizda': typeof HakkimizdaRoute
+  '/iletisim': typeof IletisimRoute
+  '/paketler': typeof PaketlerRoute
+  '/referanslar': typeof ReferanslarRoute
+  '/calismalar/$proje': typeof CalismalarProjeRoute
   '/hizmetler/$slug': typeof HizmetlerSlugRoute
+  '/calismalar/': typeof CalismalarIndexRoute
   '/hizmetler/': typeof HizmetlerIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/hizmetler/$slug' | '/hizmetler/'
+  fullPaths:
+    | '/'
+    | '/hakkimizda'
+    | '/iletisim'
+    | '/paketler'
+    | '/referanslar'
+    | '/calismalar/$proje'
+    | '/hizmetler/$slug'
+    | '/calismalar/'
+    | '/hizmetler/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/hizmetler/$slug' | '/hizmetler'
-  id: '__root__' | '/' | '/hizmetler/$slug' | '/hizmetler/'
+  to:
+    | '/'
+    | '/hakkimizda'
+    | '/iletisim'
+    | '/paketler'
+    | '/referanslar'
+    | '/calismalar/$proje'
+    | '/hizmetler/$slug'
+    | '/calismalar'
+    | '/hizmetler'
+  id:
+    | '__root__'
+    | '/'
+    | '/hakkimizda'
+    | '/iletisim'
+    | '/paketler'
+    | '/referanslar'
+    | '/calismalar/$proje'
+    | '/hizmetler/$slug'
+    | '/calismalar/'
+    | '/hizmetler/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  HakkimizdaRoute: typeof HakkimizdaRoute
+  IletisimRoute: typeof IletisimRoute
+  PaketlerRoute: typeof PaketlerRoute
+  ReferanslarRoute: typeof ReferanslarRoute
+  CalismalarProjeRoute: typeof CalismalarProjeRoute
   HizmetlerSlugRoute: typeof HizmetlerSlugRoute
+  CalismalarIndexRoute: typeof CalismalarIndexRoute
   HizmetlerIndexRoute: typeof HizmetlerIndexRoute
 }
 
@@ -66,6 +154,48 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hakkimizda': {
+      id: '/hakkimizda'
+      path: '/hakkimizda'
+      fullPath: '/hakkimizda'
+      preLoaderRoute: typeof HakkimizdaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/iletisim': {
+      id: '/iletisim'
+      path: '/iletisim'
+      fullPath: '/iletisim'
+      preLoaderRoute: typeof IletisimRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/paketler': {
+      id: '/paketler'
+      path: '/paketler'
+      fullPath: '/paketler'
+      preLoaderRoute: typeof PaketlerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/referanslar': {
+      id: '/referanslar'
+      path: '/referanslar'
+      fullPath: '/referanslar'
+      preLoaderRoute: typeof ReferanslarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/calismalar/': {
+      id: '/calismalar/'
+      path: '/calismalar'
+      fullPath: '/calismalar/'
+      preLoaderRoute: typeof CalismalarIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/calismalar/$proje': {
+      id: '/calismalar/$proje'
+      path: '/calismalar/$proje'
+      fullPath: '/calismalar/$proje'
+      preLoaderRoute: typeof CalismalarProjeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/hizmetler/': {
@@ -87,7 +217,13 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  HakkimizdaRoute: HakkimizdaRoute,
+  IletisimRoute: IletisimRoute,
+  PaketlerRoute: PaketlerRoute,
+  ReferanslarRoute: ReferanslarRoute,
+  CalismalarProjeRoute: CalismalarProjeRoute,
   HizmetlerSlugRoute: HizmetlerSlugRoute,
+  CalismalarIndexRoute: CalismalarIndexRoute,
   HizmetlerIndexRoute: HizmetlerIndexRoute,
 }
 export const routeTree = rootRouteImport
