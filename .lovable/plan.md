@@ -34,7 +34,17 @@
 ## 5. Teklif formu
 - 3 adım: hizmet (çoklu + "Emin değilim") → ihtiyaç (sektör, açıklama, başlangıç) → iletişim (ad, işletme, e-posta veya telefon).
 - URL'den paket/hizmet ön seçimi, geri gidince veri korunur, doğrulama, yükleniyor/hata/tekrar dene/başarı.
-- Talepler Lovable Cloud'da saklanır; dışarıdan okunamaz (sadece ekleme izni). Başarı mesajı yalnızca kayıt sonrası.
+- Talepler Lovable Cloud'da saklanır; ziyaretçiler okuyamaz. Başarı mesajı yalnızca kayıt sonrası.
+- Spam önlemleri: gizli bal küpü alanı, minimum doldurma süresi, sunucu tarafı zod doğrulama ve IP bazlı basit hız sınırı.
+- Yetkili görünüm: e-posta/şifre girişli `/yonetim` sayfası; yalnızca admin rolüne sahip hesap talepleri en yeniden eskiye listeler (üyelik kaydı kapalı, admin hesabı sizin e-postanızla oluşturulur).
+
+## 5b. Adres tutarlılığı
+- Canonical, og:url ve sitemap mevcut isteğin gerçek adresinden üretilir; ventosdigital.com bağlandığında otomatik doğru olur, öncesinde sahte yönlendirme yok.
+- Gerekirse tek bir site ayarı ile sabit alan adı tanımlanabilir.
+
+## 5c. Teslim raporu
+- Erişilen referans sayfaları ve gözleme dayalı en fazla 5 karar (yerleşim ve davranış tarifiyle).
+- Test edilen işlevler, bekleyen bağlantılar, sizden gereken logo, medya, iletişim, fiyat bilgileri.
 
 ## 6. SEO ve kalite
 - Her sayfaya özgün title/description/canonical/og; sitemap.xml, robots.txt, Organization yapılandırılmış verisi; site adresi tek ayardan (ventosdigital.com).
