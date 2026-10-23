@@ -2,7 +2,8 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { attributionLabel, getPublishedProject, publishedProjects } from "@/content/projects";
 import { getService } from "@/content/services";
 import { breadcrumbLd, pageHead } from "@/lib/seo";
-import { Crumbs, CtaBand, ProjectCard, SectionHead } from "@/components/site/Blocks";
+import { Crumbs, CtaBand, ProjectCard, ProjectCover, SectionHead } from "@/components/site/Blocks";
+import { SocialContent } from "@/components/site/SocialContent";
 
 export const Route = createFileRoute("/calismalar/$proje")({
   loader: ({ params }) => {
@@ -39,16 +40,18 @@ function ProjectPage() {
       </section>
 
       {p.cover && !p.mediaPending && (
-        <section className="container-x"><img src={p.cover.src} alt={p.cover.alt} width={p.cover.width} height={p.cover.height} className="w-full rounded-2xl object-cover" /></section>
+        <section className="container-x"><ProjectCover cover={p.cover} eager className="rounded-2xl" /></section>
       )}
 
-      <section className="surface-stone py-16 md:py-20">
+      <section className="surface-stone mt-12 py-16 md:py-20">
         <div className="container-x grid gap-10 md:grid-cols-3">
           <div><p className="eyebrow text-muted-foreground">İhtiyaç</p><p className="mt-4 font-display text-2xl font-semibold leading-snug">{p.need}</p></div>
           <div><p className="eyebrow text-muted-foreground">Katkımız</p><ul className="mt-4 space-y-2">{p.contribution.map((c) => <li key={c} className="border-b pb-2">{c}</li>)}</ul></div>
           <div><p className="eyebrow text-muted-foreground">Teslimler</p><ul className="mt-4 flex flex-wrap gap-2">{p.deliverables.map((d) => <li key={d} className="rounded-full bg-card px-3 py-1.5 text-sm font-semibold">{d}</li>)}</ul></div>
         </div>
       </section>
+
+      <SocialContent project={p} />
 
       {p.gallery.length > 0 && (
         <section className="container-x py-16">
