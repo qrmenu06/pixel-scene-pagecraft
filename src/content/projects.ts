@@ -1,6 +1,27 @@
 import type { ProjectCategory, ServiceSlug } from "./services";
+import cDalyy from "@/assets/covers/dalyy-done.webp.asset.json";
+import cPalmeira from "@/assets/covers/palmeira-lounge.webp.asset.json";
+import cMarrakesh from "@/assets/covers/marrakesh-garden-etlik.webp.asset.json";
+import cNovera from "@/assets/covers/novera-ofis-mobilyalari.webp.asset.json";
+import cHarun from "@/assets/covers/harun-sandalye.webp.asset.json";
+import cSekmenler from "@/assets/covers/sekmenler-hayvancilik.webp.asset.json";
+import cUnal from "@/assets/covers/unal-deutschland.webp.asset.json";
+import cOsmanbey from "@/assets/covers/osmanbey-agriculture.webp.asset.json";
+import cAsiyan from "@/assets/covers/asiyan-koleji.png.asset.json";
+import cGastro from "@/assets/covers/gastroyummy.png.asset.json";
 
 export type MediaItem = { src: string; alt: string; width: number; height: number; kind?: "image" | "video"; poster?: string };
+
+/** Portfolyoda sergilenen tekil sosyal medya içeriği. mediaSrc varsa sitede gösterilir, yoksa instagramUrl resmi gömme ile gösterilir. */
+export type SocialItem = {
+  type: "reel" | "video" | "photo" | "post";
+  instagramUrl?: string;
+  mediaSrc?: string;
+  posterSrc?: string;
+  alt: string;
+  caption?: string;
+  order: number;
+};
 
 export type Project = {
   slug: string;
@@ -20,6 +41,8 @@ export type Project = {
   cover?: MediaItem;
   gallery: MediaItem[];
   video?: MediaItem;
+  instagramProfileUrl?: string;
+  socialItems?: SocialItem[];
   order: number;
   featured: boolean;
   status: "published" | "draft";
@@ -28,14 +51,34 @@ export type Project = {
   seo: { title: string; description: string };
 };
 
-const p = (x: Omit<Project, "gallery" | "seo"> & Partial<Pick<Project, "gallery" | "seo">>): Project => ({
-  gallery: [],
-  seo: {
-    title: `${x.client} — ${x.title} | Ventos Digital`,
-    description: x.summary,
-  },
-  ...x,
-});
+const cv = (a: { url: string }, alt: string): MediaItem => ({ src: a.url, alt, width: 1536, height: 1024 });
+
+const covers: Record<string, MediaItem> = {
+  "dalyy-done": cv(cDalyy, "Dalyy Done için hazırlanan, siyah tabakta cheesecake ve alevli tava içeren ürün tasarımı"),
+  "palmeira-lounge": cv(cPalmeira, "Palmeira Lounge için hazırlanan, cheesecake ve mavi içecek içeren gönderi tasarımı"),
+  "marrakesh-garden-etlik": cv(cMarrakesh, "Marrakesh Garden Etlik için hazırlanan, penne ve burger içeren gönderi tasarımı"),
+  "novera-ofis-mobilyalari": cv(cNovera, "Novera Ofis Mobilyaları Meta reklam çalışması sunumu"),
+  "harun-sandalye": cv(cHarun, "Harun Sandalye dijital reklam çalışması sunumu"),
+  "sekmenler-hayvancilik": cv(cSekmenler, "Sekmenler Hayvancılık reklam çalışması sunumu"),
+  "unal-deutschland": cv(cUnal, "Ünal Deutschland e-ticaret sitesi ekran sunumu"),
+  "osmanbey-agriculture": cv(cOsmanbey, "Osmanbey Agriculture kurumsal web sitesi ekran sunumu"),
+  "asiyan-koleji": cv(cAsiyan, "Aşiyan Koleji web sitesi ekran sunumu"),
+  gastroyummy: cv(cGastro, "GastroYummy uygulama tanıtım sitesi ekran sunumu"),
+};
+
+const p = (x: Omit<Project, "gallery" | "seo"> & Partial<Pick<Project, "gallery" | "seo">>): Project => {
+  const cover = x.cover ?? covers[x.slug];
+  return {
+    gallery: [],
+    seo: {
+      title: `${x.client} — ${x.title} | Ventos Digital`,
+      description: x.summary,
+    },
+    ...x,
+    cover,
+    mediaPending: cover ? false : x.mediaPending,
+  };
+};
 
 export const allProjects: Project[] = [
   p({
