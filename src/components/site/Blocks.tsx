@@ -39,16 +39,22 @@ export function PageIntro({ eyebrow, title, intro, crumbs, children, className }
   );
 }
 
+/** Kapak görselini kırpmadan 3:2 alanda gösterir. */
+export function ProjectCover({ cover, eager, className }: { cover: NonNullable<Project["cover"]>; eager?: boolean; className?: string }) {
+  return (
+    <div className={cn("aspect-[3/2] w-full overflow-hidden rounded-xl bg-muted", className)}>
+      <img src={cover.src} alt={cover.alt} width={cover.width} height={cover.height} loading={eager ? "eager" : "lazy"} decoding="async" className="h-full w-full object-contain object-center" />
+    </div>
+  );
+}
+
 export function ProjectCard({ project, size = "md" }: { project: Project; size?: "md" | "lg" }) {
   const cover = project.cover;
+  const hasCover = !!cover && !project.mediaPending;
   return (
-    <Link to="/calismalar/$proje" params={{ proje: project.slug }} className="group block h-full">
-      {cover && !project.mediaPending ? (
-        <div className="overflow-hidden rounded-xl">
-          <img src={cover.src} alt={cover.alt} width={cover.width} height={cover.height} loading="lazy" className="aspect-[4/3] w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-        </div>
-      ) : null}
-      <div className={cn("flex h-full flex-col justify-between gap-8 rounded-xl border bg-card p-6 transition-colors group-hover:border-ink", size === "lg" && "md:p-8", cover && !project.mediaPending && "mt-3 h-auto")}>
+    <Link to="/calismalar/$proje" params={{ proje: project.slug }} className="group flex h-full flex-col">
+      {hasCover ? <ProjectCover cover={cover} /> : null}
+      <div className={cn("flex flex-1 flex-col justify-between gap-8 rounded-xl border bg-card p-6 transition-colors group-hover:border-ink", size === "lg" && "md:p-8", hasCover && "mt-3")}>
         <div className="flex items-start justify-between gap-4">
           <span className="eyebrow text-muted-foreground">{project.sectorLabel}</span>
           <ArrowUpRight className="size-5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
