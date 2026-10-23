@@ -83,6 +83,7 @@ const p = (x: Omit<Project, "gallery" | "seo"> & Partial<Pick<Project, "gallery"
 export const allProjects: Project[] = [
   p({
     slug: "dalyy-done",
+    instagramProfileUrl: "https://www.instagram.com/dalyydonecafe/",
     title: "Sosyal medya ve içerik üretimi",
     client: "Dalyy Done",
     sector: "kafe-restoran",
@@ -101,6 +102,7 @@ export const allProjects: Project[] = [
   }),
   p({
     slug: "palmeira-lounge",
+    instagramProfileUrl: "https://www.instagram.com/palmeira_lounge/",
     title: "Sosyal medya ve içerik üretimi",
     client: "Palmeira Lounge",
     sector: "kafe-restoran",
@@ -119,6 +121,7 @@ export const allProjects: Project[] = [
   }),
   p({
     slug: "marrakesh-garden-etlik",
+    instagramProfileUrl: "https://www.instagram.com/marrakeshgardenetlik/",
     title: "Sosyal medya ve içerik üretimi",
     client: "Marrakesh Garden Etlik",
     sector: "kafe-restoran",
