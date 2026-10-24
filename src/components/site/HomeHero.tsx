@@ -144,7 +144,7 @@ export function HomeHero() {
                   <p className="mt-5 max-w-xl text-lg text-muted-foreground">{s.text}</p>
                   <div className="mt-8 flex flex-wrap gap-3">
                     {s.buttons.map((b) => (
-                      <Link key={b.label} to={b.slug ? "/hizmetler/$slug" : b.to} params={b.slug ? { slug: b.slug } : undefined} className={cn("group inline-flex items-center gap-2 rounded-full px-6 py-3.5 font-bold", b.primary ? "bg-ink text-ink-foreground" : "border border-ink hover:bg-ink hover:text-ink-foreground")}>
+                      <Link key={b.label} {...(b.slug ? { to: "/hizmetler/$slug" as const, params: { slug: b.slug } } : { to: b.to })} className={cn("group inline-flex items-center gap-2 rounded-full px-6 py-3.5 font-bold", b.primary ? "bg-ink text-ink-foreground" : "border border-ink hover:bg-ink hover:text-ink-foreground")}>
                         {b.label} {b.primary && <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />}
                       </Link>
                     ))}
