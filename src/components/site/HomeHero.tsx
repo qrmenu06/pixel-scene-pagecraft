@@ -6,13 +6,13 @@ import { ProjectCover } from "./Blocks";
 import { WindLines } from "./Reveal";
 import { cn } from "@/lib/utils";
 
-type Btn = { label: string; to: "/calismalar" | "/teklif" | "/hizmetler" | "/hizmetler/reklam-yonetimi"; primary?: boolean };
+type Btn = { label: string; to: "/calismalar" | "/teklif" | "/hizmetler"; slug?: string; primary?: boolean };
 type Slide = { name: string; tag: string; title: string; text: string; buttons: Btn[]; covers: string[]; flow?: boolean };
 
 const slides: Slide[] = [
   { name: "Ventos", tag: "İÇERİK · REKLAM · WEB · OTOMASYON", title: "Rüzgârı arkanıza alın.", text: "Markanızın içeriklerini üretiyor, reklamlarını yönetiyor, web sitesini kuruyor ve işlerini otomasyonla kolaylaştırıyoruz.", buttons: [{ label: "Çalışmalarımızı inceleyin", to: "/calismalar", primary: true }, { label: "Birlikte çalışalım", to: "/teklif" }], covers: ["dalyy-done", "novera-ofis-mobilyalari", "unal-deutschland"] },
   { name: "İçerik", tag: "SOSYAL MEDYA · FOTOĞRAF · VİDEO", title: "Markanızın anlatılacak çok şeyi var.", text: "Ürünlerinizi, mekânınızı ve hikâyenizi fotoğraf, Reels ve tasarımlarla görünür kılıyoruz. Sosyal medya hesabınızı planlı şekilde yönetiyoruz.", buttons: [{ label: "İçerik çalışmalarını görün", to: "/calismalar", primary: true }], covers: ["palmeira-lounge", "marrakesh-garden-etlik"] },
-  { name: "Reklam", tag: "META REKLAM YÖNETİMİ", title: "Doğru kişilere ulaşın.", text: "Instagram ve Facebook reklamlarınızı planlıyor, farklı içerikleri test ediyor ve kampanyalarınızı düzenli olarak iyileştiriyoruz.", buttons: [{ label: "Reklam hizmetini inceleyin", to: "/hizmetler/reklam-yonetimi", primary: true }], covers: ["novera-ofis-mobilyalari", "harun-sandalye"] },
+  { name: "Reklam", tag: "META REKLAM YÖNETİMİ", title: "Doğru kişilere ulaşın.", text: "Instagram ve Facebook reklamlarınızı planlıyor, farklı içerikleri test ediyor ve kampanyalarınızı düzenli olarak iyileştiriyoruz.", buttons: [{ label: "Reklam hizmetini inceleyin", to: "/hizmetler", slug: "reklam-yonetimi", primary: true }], covers: ["novera-ofis-mobilyalari", "harun-sandalye"] },
   { name: "Dijital", tag: "WEB · E-TİCARET · OTOMASYON", title: "Dijitalde işiniz kolaylaşsın.", text: "Web sitenizi ve online mağazanızı kuruyor, tekrarlanan işleri yazılım ve otomasyonla kolaylaştırıyoruz.", buttons: [{ label: "Dijital çözümleri keşfedin", to: "/hizmetler", primary: true }, { label: "İhtiyacınızı anlatın", to: "/teklif" }], covers: ["unal-deutschland", "osmanbey-agriculture"], flow: true },
 ];
 
@@ -22,7 +22,7 @@ function Cover({ slug, eager }: { slug: string; eager: boolean }) {
 }
 
 function Visual({ s, first }: { s: Slide; first: boolean }) {
-  const [a, ...rest] = s.covers;
+  const [a = "", ...rest] = s.covers;
   return (
     <div className="grid gap-3">
       <Cover slug={a} eager={first} />
@@ -144,7 +144,7 @@ export function HomeHero() {
                   <p className="mt-5 max-w-xl text-lg text-muted-foreground">{s.text}</p>
                   <div className="mt-8 flex flex-wrap gap-3">
                     {s.buttons.map((b) => (
-                      <Link key={b.label} to={b.to} className={cn("group inline-flex items-center gap-2 rounded-full px-6 py-3.5 font-bold", b.primary ? "bg-ink text-ink-foreground" : "border border-ink hover:bg-ink hover:text-ink-foreground")}>
+                      <Link key={b.label} to={b.slug ? "/hizmetler/$slug" : b.to} params={b.slug ? { slug: b.slug } : undefined} className={cn("group inline-flex items-center gap-2 rounded-full px-6 py-3.5 font-bold", b.primary ? "bg-ink text-ink-foreground" : "border border-ink hover:bg-ink hover:text-ink-foreground")}>
                         {b.label} {b.primary && <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />}
                       </Link>
                     ))}
