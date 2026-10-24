@@ -3,7 +3,7 @@ import { attributionLabel, getPublishedProject, publishedProjects } from "@/cont
 import { getService } from "@/content/services";
 import { breadcrumbLd, pageHead } from "@/lib/seo";
 import { Crumbs, CtaBand, ProjectCard, ProjectCover, SectionHead } from "@/components/site/Blocks";
-import { SocialContent } from "@/components/site/SocialContent";
+import { FeaturedVideo, SocialContent } from "@/components/site/SocialContent";
 
 export const Route = createFileRoute("/calismalar/$proje")({
   loader: ({ params }) => {
@@ -44,14 +44,14 @@ function ProjectPage() {
       )}
 
       <section className="surface-stone mt-12 py-16 md:py-20">
-        <div className="container-x grid gap-10 md:grid-cols-3">
-          <div><p className="eyebrow text-muted-foreground">İhtiyaç</p><p className="mt-4 font-display text-2xl font-semibold leading-snug">{p.need}</p></div>
-          <div><p className="eyebrow text-muted-foreground">Katkımız</p><ul className="mt-4 space-y-2">{p.contribution.map((c) => <li key={c} className="border-b pb-2">{c}</li>)}</ul></div>
-          <div><p className="eyebrow text-muted-foreground">Teslimler</p><ul className="mt-4 flex flex-wrap gap-2">{p.deliverables.map((d) => <li key={d} className="rounded-full bg-card px-3 py-1.5 text-sm font-semibold">{d}</li>)}</ul></div>
+        <div className="container-x grid gap-10 md:grid-cols-2 md:gap-16">
+          <div><p className="eyebrow text-muted-foreground">İhtiyaç</p><p className="mt-4 font-display text-2xl font-semibold leading-snug md:text-3xl">{p.need}</p></div>
+          <div><p className="eyebrow text-muted-foreground">Yaklaşımımız</p><ul className="mt-4 space-y-2 text-lg">{p.contribution.map((c) => <li key={c} className="border-b pb-2">{c}</li>)}</ul></div>
         </div>
       </section>
 
-      <SocialContent project={p} />
+      <FeaturedVideo key={`fv-${p.slug}`} project={p} />
+      <SocialContent key={`sc-${p.slug}`} project={p} />
 
       {p.gallery.length > 0 && (
         <section className="container-x py-16">
@@ -62,8 +62,9 @@ function ProjectPage() {
         </section>
       )}
 
-      <section className="container-x py-16">
-        <SectionHead eyebrow="İlgili hizmetler" title="Bu işte kullanılan hizmetler." />
+      <section className="container-x border-t py-16">
+        <SectionHead eyebrow="Yaptığımız işin kapsamı" title="Teslim ettiklerimiz." />
+        <ul className="mt-8 flex flex-wrap gap-2">{p.deliverables.map((d) => <li key={d} className="rounded-full bg-stone px-4 py-2 font-semibold">{d}</li>)}</ul>
         <ul className="mt-8 flex flex-wrap gap-3">
           {p.services.map((s) => (
             <li key={s}><Link to="/hizmetler/$slug" params={{ slug: s }} className="inline-block rounded-full border border-ink px-5 py-3 font-bold hover:bg-ink hover:text-ink-foreground">{getService(s)?.title} →</Link></li>
@@ -78,7 +79,7 @@ function ProjectPage() {
         </section>
       )}
 
-      <CtaBand title="Benzer bir iş mi düşünüyorsunuz?" search={{ hizmet: p.services[0] }} />
+      <CtaBand title="Markanız için de birlikte üretelim." search={{ hizmet: p.services[0] }} />
     </>
   );
 }
