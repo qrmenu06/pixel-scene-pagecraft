@@ -9,9 +9,11 @@ declare global {
 }
 function loadEmbedScript() {
   if (window.instgrm) { window.instgrm.Embeds.process(); return; }
-  if (document.querySelector(`script[src="${EMBED_SRC}"]`)) return;
+  const existing = document.querySelector<HTMLScriptElement>(`script[src="${EMBED_SRC}"]`);
+  if (existing) { existing.addEventListener("load", () => window.instgrm?.Embeds.process(), { once: true }); return; }
   const s = document.createElement("script");
   s.src = EMBED_SRC; s.async = true;
+  s.onload = () => window.instgrm?.Embeds.process();
   document.body.appendChild(s);
 }
 
@@ -87,37 +89,68 @@ function Group({ title, items }: { title: string; items: SocialItem[] }) {
   const opener = useRef<HTMLElement | null>(null);
   if (!items.length) return null;
   const close = () => { setOpen(null); opener.current?.focus(); };
+  const cols = items.length === 1 ? "max-w-md" : items.length === 2 ? "sm:grid-cols-2 lg:max-w-4xl" : "sm:grid-cols-2 lg:grid-cols-3";
   return (
     <div className="mt-10">
-      <h3 className="font-display text-xl font-semibold">{title}</h3>
-      <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {items.map((it, i) => it.mediaSrc
-          ? <MediaTile key={i} item={it} onOpen={(el) => { opener.current = el; setOpen(it); }} />
-          : it.instagramUrl ? <Embed key={i} url={it.instagramUrl} /> : null)}
+      {title && <h3 className="font-display text-xl font-semibold">{title}</h3>}
+      <div className={`mt-5 grid grid-cols-1 items-start gap-4 ${cols}`}>
+        {items.map((it) => it.mediaSrc
+          ? <MediaTile key={it.mediaSrc} item={it} onOpen={(el) => { opener.current = el; setOpen(it); }} />
+          : it.instagramUrl ? <Embed key={it.instagramUrl} url={it.instagramUrl} /> : null)}
       </div>
       {open && <Lightbox item={open} onClose={close} />}
     </div>
   );
 }
 
+/** Öne çıkan video/Reels: yerel dosya varsa oynatıcı, yoksa resmi Instagram gömmesi. Veri yoksa gizli. */
+export function FeaturedVideo({ project: p }: { project: Project }) {
+  const v = p.featuredVideo;
+  if (!v || (!v.mediaSrc && !v.instagramUrl)) return null;
+  return (
+    <section className="surface-ink py-16 md:py-20">
+      <div className="container-x grid items-center gap-10 lg:grid-cols-[1fr_minmax(0,420px)]">
+        <div>
+          <p className="eyebrow text-cyan">Öne çıkan Reels</p>
+          <h2 className="mt-4 font-display text-3xl font-bold leading-tight md:text-5xl">{p.client} için ürettiğimiz video.</h2>
+          {v.instagramUrl && <div className="mt-6"><IgLink href={v.instagramUrl} /></div>}
+        </div>
+        <div className="mx-auto w-full max-w-[420px] text-foreground">
+          {v.mediaSrc
+            ? <video src={v.mediaSrc} poster={v.posterSrc} controls preload="none" playsInline className="aspect-[9/16] w-full rounded-xl bg-muted object-contain" aria-label={v.alt} />
+            : <Embed key={v.instagramUrl} url={v.instagramUrl!} />}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export function SocialContent({ project: p }: { project: Project }) {
-  const items = [...(p.socialItems ?? [])].filter((i) => i.mediaSrc || i.instagramUrl).sort((a, b) => a.order - b.order);
+  const featured = p.featuredVideo?.instagramUrl ?? p.featuredVideo?.mediaSrc;
+  const items = [...(p.socialItems ?? [])]
+    .filter((i) => (i.mediaSrc || i.instagramUrl) && (i.instagramUrl ?? i.mediaSrc) !== featured)
+    .sort((a, b) => a.order - b.order);
   if (!p.instagramProfileUrl && !items.length) return null;
   const videos = items.filter((i) => i.type === "reel" || i.type === "video");
   const photos = items.filter((i) => i.type === "photo" || i.type === "post");
+  const both = videos.length > 0 && photos.length > 0;
   return (
     <section className="container-x py-16">
-      <SectionHead eyebrow="Ürettiğimiz içerikler" title="Bu işletme için hazırladığımız içerikler." />
-      <Group title="Reels / videolar" items={videos} />
-      <Group title="Fotoğraflar / gönderiler" items={photos} />
-      {p.instagramProfileUrl && (
+      <div className="flex flex-wrap items-end justify-between gap-6">
+        <SectionHead eyebrow="Ürettiğimiz içerikler" title={items.length ? "Bu işletme için hazırladığımız işler." : `${p.client} Instagram hesabı.`} />
+        {p.instagramProfileUrl && items.length > 0 && (
+          <a href={p.instagramProfileUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 font-bold">
+            <Instagram className="size-4" aria-hidden /> Tümünü Instagram'da gör <ArrowUpRight className="size-4" />
+          </a>
+        )}
+      </div>
+      <Group title={both ? "Reels / videolar" : ""} items={videos} />
+      <Group title={both ? "Fotoğraflar / gönderiler" : ""} items={photos} />
+      {p.instagramProfileUrl && !items.length && (
         <div className="mt-10 flex flex-col gap-4 rounded-2xl border bg-card p-6 sm:flex-row sm:items-center sm:justify-between md:p-8">
           <div className="flex min-w-0 items-center gap-4">
             <Instagram className="size-8 shrink-0" aria-hidden />
-            <div className="min-w-0">
-              <p className="font-display text-xl font-semibold">{p.client} Instagram hesabı</p>
-              <p className="break-all text-sm text-muted-foreground">@{p.instagramProfileUrl.replace(/\/$/, "").split("/").pop()}</p>
-            </div>
+            <p className="break-all font-display text-xl font-semibold">@{p.instagramProfileUrl.replace(/\/$/, "").split("/").pop()}</p>
           </div>
           <a href={p.instagramProfileUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-full bg-ink px-5 py-3 font-bold text-ink-foreground">
             İçerikleri Instagram'da incele <ArrowUpRight className="size-4" />

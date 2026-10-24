@@ -9,6 +9,7 @@ import { packages, formatPrice } from "@/content/packages";
 import { Reveal, WindLines } from "@/components/site/Reveal";
 import { ProjectCard, CtaBand, SectionHead } from "@/components/site/Blocks";
 import { images, PhoneFeed, PhoneReels, WebMock, SampleBadge } from "@/components/site/Mockups";
+import { HomeHero } from "@/components/site/HomeHero";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
@@ -45,44 +46,8 @@ function Index() {
 
   return (
     <div className={cn(motionOff && "motion-off")}>
-      {/* A. Hero */}
-      <section className="relative overflow-hidden">
-        <WindLines className="text-ink" />
-        <div className="container-x relative grid items-center gap-12 pb-16 pt-8 lg:grid-cols-[1.15fr_1fr] lg:pb-24 lg:pt-12">
-          <div>
-            <p className="eyebrow text-muted-foreground">Ankara · İçerik · Reklam · Web · Otomasyon</p>
-            <h1 className="display-xl mt-6">
-              İşinizi görünür kılan içerikler.
-              <span className="mt-2 block text-[0.62em] leading-[1.02] text-muted-foreground">
-                Büyümenizi destekleyen <span className="text-ink underline decoration-cyan decoration-[0.08em] underline-offset-[0.12em]">dijital çözümler.</span>
-              </span>
-            </h1>
-            <p className="mt-8 max-w-xl text-lg text-muted-foreground">
-              Sosyal medya içeriklerinizi üretiyor, reklamlarınızı yönetiyor, web sitenizi ve online mağazanızı kuruyoruz. Tekrarlanan işlerinizi yazılım ve otomasyonla kolaylaştırıyoruz.
-            </p>
-            <div className="mt-9 flex flex-wrap gap-3">
-              <Link to="/calismalar" className="group inline-flex items-center gap-2 rounded-full bg-ink px-7 py-4 font-bold text-ink-foreground">
-                Çalışmalarımızı inceleyin <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
-              </Link>
-              <Link to="/teklif" className="rounded-full border border-ink px-7 py-4 font-bold hover:bg-ink hover:text-ink-foreground">İhtiyacınızı konuşalım</Link>
-            </div>
-          </div>
-
-          <div className="relative mx-auto h-[520px] w-full max-w-[560px] md:h-[600px]">
-            <img src={images.heroCafe} alt="Kafede latte servis edilen sıcak bir an" width={1280} height={1600} className="absolute right-0 top-0 h-[78%] w-[72%] rounded-2xl object-cover shadow-float" />
-            <PhoneFeed className="absolute bottom-0 left-0 z-10 w-[210px] animate-float md:w-[240px]" />
-            <div className="absolute bottom-6 right-2 z-20 w-[62%] max-w-[300px] rounded-xl bg-card p-4 shadow-float">
-              <p className="eyebrow text-muted-foreground">Bu hafta</p>
-              <ul className="mt-2 space-y-1.5 text-sm">
-                <li className="flex justify-between"><span>Ürün çekimi</span><span className="text-success">✓</span></li>
-                <li className="flex justify-between"><span>3 Reels kurgusu</span><span className="text-success">✓</span></li>
-                <li className="flex justify-between"><span>Reklam testi</span><span className="text-muted-foreground">sürüyor</span></li>
-              </ul>
-            </div>
-            <SampleBadge className="absolute right-3 top-3 z-20" />
-          </div>
-        </div>
-      </section>
+      {/* A. Açılış: VENTOS + 4 slayt */}
+      <HomeHero />
 
       {/* B. Referans bandı */}
       <section aria-label="Çalıştığımız markalar" className="border-y bg-card py-6">

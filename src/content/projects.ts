@@ -42,6 +42,8 @@ export type Project = {
   gallery: MediaItem[];
   video?: MediaItem;
   instagramProfileUrl?: string;
+  /** Öne çıkan video/Reels; galeride tekrarlanmaz */
+  featuredVideo?: SocialItem;
   socialItems?: SocialItem[];
   order: number;
   featured: boolean;
@@ -52,6 +54,7 @@ export type Project = {
 };
 
 const cv = (a: { url: string }, alt: string): MediaItem => ({ src: a.url, alt, width: 1536, height: 1024 });
+const reel = (instagramUrl: string, client: string, order: number): SocialItem => ({ type: "reel", instagramUrl, alt: `${client} için hazırlanan Reels çalışması`, caption: "Reels çalışması", order });
 
 const covers: Record<string, MediaItem> = {
   "dalyy-done": cv(cDalyy, "Dalyy Done için hazırlanan, siyah tabakta cheesecake ve alevli tava içeren ürün tasarımı"),
@@ -84,6 +87,8 @@ export const allProjects: Project[] = [
   p({
     slug: "dalyy-done",
     instagramProfileUrl: "https://www.instagram.com/dalyydonecafe/",
+    featuredVideo: reel("https://www.instagram.com/dalyydonecafe/reel/Db0TFO6D3ur/", "Dalyy Done", 0),
+    socialItems: [reel("https://www.instagram.com/dalyydonecafe/reel/DcHQhSeEi9f/", "Dalyy Done", 1)],
     title: "Sosyal medya ve içerik üretimi",
     client: "Dalyy Done",
     sector: "kafe-restoran",
@@ -103,6 +108,11 @@ export const allProjects: Project[] = [
   p({
     slug: "palmeira-lounge",
     instagramProfileUrl: "https://www.instagram.com/palmeira_lounge/",
+    featuredVideo: reel("https://www.instagram.com/reel/Dbvy1XVlJFE/", "Palmeira Lounge", 0),
+    socialItems: [
+      reel("https://www.instagram.com/reel/DdUMptMDShX/", "Palmeira Lounge", 1),
+      reel("https://www.instagram.com/reel/Dd_eLX-mu_J/", "Palmeira Lounge", 2),
+    ],
     title: "Sosyal medya ve içerik üretimi",
     client: "Palmeira Lounge",
     sector: "kafe-restoran",
@@ -122,6 +132,8 @@ export const allProjects: Project[] = [
   p({
     slug: "marrakesh-garden-etlik",
     instagramProfileUrl: "https://www.instagram.com/marrakeshgardenetlik/",
+    featuredVideo: reel("https://www.instagram.com/marrakeshgardenetlik/reel/Ddt8p4Pj7QO/", "Marrakesh Garden Etlik", 0),
+    socialItems: [reel("https://www.instagram.com/marrakeshgardenetlik/reel/DdUTg1ODY-8/", "Marrakesh Garden Etlik", 1)],
     title: "Sosyal medya ve içerik üretimi",
     client: "Marrakesh Garden Etlik",
     sector: "kafe-restoran",
