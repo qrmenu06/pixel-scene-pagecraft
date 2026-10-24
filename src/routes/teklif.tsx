@@ -32,7 +32,7 @@ function QuotePage() {
   const set = (k: keyof typeof f, v: string) => setF((x) => ({ ...x, [k]: v }));
 
   const validate = (s: number) => {
-    const e: Record<string, string> = {};
+    const e: Partial<Record<"services" | "sector" | "description" | "name" | "email" | "phone", string>> = {};
     if (s === 0 && !f.services.length) e.services = "En az bir seçim yapın.";
     if (s === 1) {
       if (!f.sector.trim()) e.sector = "Sektörünüzü yazın.";

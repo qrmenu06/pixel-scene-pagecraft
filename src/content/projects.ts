@@ -68,7 +68,7 @@ const covers: Record<string, MediaItem> = {
 
 const p = (x: Omit<Project, "gallery" | "seo"> & Partial<Pick<Project, "gallery" | "seo">>): Project => {
   const cover = x.cover ?? covers[x.slug];
-  return {
+  return <Project>{
     gallery: [],
     seo: {
       title: `${x.client} — ${x.title} | Ventos Digital`,
