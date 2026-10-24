@@ -9,9 +9,11 @@ declare global {
 }
 function loadEmbedScript() {
   if (window.instgrm) { window.instgrm.Embeds.process(); return; }
-  if (document.querySelector(`script[src="${EMBED_SRC}"]`)) return;
+  const existing = document.querySelector<HTMLScriptElement>(`script[src="${EMBED_SRC}"]`);
+  if (existing) { existing.addEventListener("load", () => window.instgrm?.Embeds.process(), { once: true }); return; }
   const s = document.createElement("script");
   s.src = EMBED_SRC; s.async = true;
+  s.onload = () => window.instgrm?.Embeds.process();
   document.body.appendChild(s);
 }
 
