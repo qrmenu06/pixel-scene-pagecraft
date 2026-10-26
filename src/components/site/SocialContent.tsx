@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowUpRight, Instagram, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, Instagram, X } from "lucide-react";
 import type { Project, SocialItem } from "@/content/projects";
 import { SectionHead } from "./Blocks";
 
@@ -157,6 +157,48 @@ export function SocialContent({ project: p }: { project: Project }) {
           </a>
         </div>
       )}
+    </section>
+  );
+}
+
+/** Resmi Instagram gömmeleriyle dönen Reels şeridi. Kaydırma, oklar ve yavaş otomatik geçiş. */
+export function ReelsCarousel({ items, title, eyebrow = "Reels", link }: { items: { url: string; client?: string }[]; title: string; eyebrow?: string; link?: { href: string; label: string } }) {
+  const track = useRef<HTMLDivElement>(null);
+  const [hold, setHold] = useState(false);
+  const step = (dir: 1 | -1) => {
+    const el = track.current; if (!el) return;
+    const card = el.firstElementChild as HTMLElement | null;
+    const w = (card?.offsetWidth ?? 320) + 16;
+    const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 8;
+    if (dir === 1 && atEnd) el.scrollTo({ left: 0, behavior: "smooth" });
+    else el.scrollBy({ left: dir * w, behavior: "smooth" });
+  };
+  useEffect(() => {
+    if (hold || items.length < 2 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const t = window.setInterval(() => step(1), 6000);
+    return () => window.clearInterval(t);
+  }, [hold, items.length]);
+  if (!items.length) return null;
+  return (
+    <section className="container-x py-16" onMouseEnter={() => setHold(true)} onMouseLeave={() => setHold(false)} onFocusCapture={() => setHold(true)} onTouchStart={() => setHold(true)}>
+      <div className="flex flex-wrap items-end justify-between gap-6">
+        <SectionHead eyebrow={eyebrow} title={title} />
+        <div className="flex items-center gap-3">
+          {link && <a href={link.href} target="_blank" rel="noopener noreferrer" className="mr-2 inline-flex items-center gap-2 font-bold"><Instagram className="size-4" aria-hidden /> {link.label} <ArrowUpRight className="size-4" /></a>}
+          {items.length > 1 && <>
+            <button type="button" onClick={() => step(-1)} aria-label="Önceki Reels" className="rounded-full border p-2.5 hover:border-ink"><ArrowLeft className="size-4" /></button>
+            <button type="button" onClick={() => step(1)} aria-label="Sonraki Reels" className="rounded-full border p-2.5 hover:border-ink"><ArrowRight className="size-4" /></button>
+          </>}
+        </div>
+      </div>
+      <div ref={track} className="mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 [scrollbar-width:thin]">
+        {items.map((it) => (
+          <div key={it.url} className="w-[85%] max-w-[340px] shrink-0 snap-start sm:w-[340px]">
+            {it.client && <p className="mb-2 text-sm font-semibold text-muted-foreground">{it.client}</p>}
+            <Embed url={it.url} />
+          </div>
+        ))}
+      </div>
     </section>
   );
 }
