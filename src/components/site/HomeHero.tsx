@@ -27,10 +27,10 @@ function Visual({ s, first }: { s: Slide; first: boolean }) {
   const [a = "", b = ""] = s.covers;
   if (s.kind === "phone")
     return (
-      <div className="flex h-[300px] items-center justify-center gap-4 md:h-[400px]">
+      <div className="relative mx-auto w-full max-w-[520px] pb-10 pr-10 sm:pb-16 sm:pr-16">
         {[a, b].map((x, i) => (
-          <div key={x} className={cn("h-full max-h-full aspect-[9/16] overflow-hidden rounded-[1.8rem] border-[6px] border-ink bg-ink shadow-float", i === 1 && "hidden translate-y-6 sm:block")}>
-            <div className="h-full overflow-hidden rounded-[1.3rem]"><Img slug={x} eager={false} /></div>
+          <div key={x} className={cn("aspect-[3/2] overflow-hidden rounded-xl border bg-card shadow-float", i === 0 ? "relative -rotate-2" : "absolute bottom-0 right-0 w-[78%] rotate-3")}>
+            <Img slug={x} eager={false} />
           </div>
         ))}
       </div>
