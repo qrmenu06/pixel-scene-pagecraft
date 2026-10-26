@@ -10,6 +10,7 @@ import { Reveal, WindLines } from "@/components/site/Reveal";
 import { ProjectCard, CtaBand, SectionHead } from "@/components/site/Blocks";
 import { images, PhoneFeed, PhoneReels, WebMock, SampleBadge } from "@/components/site/Mockups";
 import { HomeHero } from "@/components/site/HomeHero";
+import { ReelsCarousel } from "@/components/site/SocialContent";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
@@ -43,11 +44,13 @@ function Index() {
   const projects = publishedProjects();
   const featured = projects.filter((p) => p.featured).slice(0, 4);
   const clients = projects.map((p) => p.client);
+  const homeReels = projects.flatMap((p) => [p.featuredVideo, ...(p.socialItems ?? [])].filter((i) => i?.type === "reel" && i.instagramUrl).map((i) => ({ url: i!.instagramUrl!, client: p.client })));
 
   return (
     <div className={cn(motionOff && "motion-off")}>
       {/* A. Açılış: VENTOS + 4 slayt */}
       <HomeHero />
+      <ReelsCarousel eyebrow="Ürettiğimiz Reels" title="Mekânlar için çektiğimiz videolar." items={homeReels} />
 
       {/* B. Referans bandı */}
       <section aria-label="Çalıştığımız markalar" className="border-y bg-card py-6">
