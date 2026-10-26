@@ -109,7 +109,7 @@ export function FeaturedVideo({ project: p }: { project: Project }) {
   if (!v || (!v.mediaSrc && !v.instagramUrl)) return null;
   return (
     <section className="surface-ink py-16 md:py-20">
-      <div className="container-x grid items-center gap-10 lg:grid-cols-[1fr_minmax(0,420px)]">
+      <div className="container-x grid items-start gap-10 lg:grid-cols-[1fr_minmax(0,420px)]">
         <div>
           <p className="eyebrow text-cyan">Öne çıkan Reels</p>
           <h2 className="mt-4 font-display text-3xl font-bold leading-tight md:text-5xl">{p.client} için ürettiğimiz video.</h2>

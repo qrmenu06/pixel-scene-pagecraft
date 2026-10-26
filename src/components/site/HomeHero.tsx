@@ -150,7 +150,7 @@ export function HomeHero() {
                     ))}
                   </div>
                 </div>
-                <div className="min-w-0"><Visual s={s} first={i === 0} /></div>
+                <div className="min-w-0 lg:ml-auto lg:w-full lg:max-w-[540px]"><Visual s={s} first={i === 0} /></div>
               </div>
             );
           })}
