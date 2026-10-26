@@ -7,36 +7,50 @@ import { WindLines } from "./Reveal";
 import { cn } from "@/lib/utils";
 
 type Btn = { label: string; to: "/calismalar" | "/teklif" | "/hizmetler"; slug?: string; primary?: boolean };
-type Slide = { name: string; tag: string; title: string; text: string; buttons: Btn[]; covers: string[]; flow?: boolean };
+type Kind = "single" | "phone" | "ad" | "browser";
+type Slide = { name: string; tag: string; title: string; text: string; buttons: Btn[]; covers: string[]; kind: Kind };
 
 const slides: Slide[] = [
-  { name: "Ventos", tag: "İÇERİK · REKLAM · WEB · OTOMASYON", title: "Rüzgârı arkanıza alın.", text: "Markanızın içeriklerini üretiyor, reklamlarını yönetiyor, web sitesini kuruyor ve işlerini otomasyonla kolaylaştırıyoruz.", buttons: [{ label: "Çalışmalarımızı inceleyin", to: "/calismalar", primary: true }, { label: "Birlikte çalışalım", to: "/teklif" }], covers: ["dalyy-done", "novera-ofis-mobilyalari", "unal-deutschland"] },
-  { name: "İçerik", tag: "SOSYAL MEDYA · FOTOĞRAF · VİDEO", title: "Markanızın anlatılacak çok şeyi var.", text: "Ürünlerinizi, mekânınızı ve hikâyenizi fotoğraf, Reels ve tasarımlarla görünür kılıyoruz. Sosyal medya hesabınızı planlı şekilde yönetiyoruz.", buttons: [{ label: "İçerik çalışmalarını görün", to: "/calismalar", primary: true }], covers: ["palmeira-lounge", "marrakesh-garden-etlik"] },
-  { name: "Reklam", tag: "META REKLAM YÖNETİMİ", title: "Doğru kişilere ulaşın.", text: "Instagram ve Facebook reklamlarınızı planlıyor, farklı içerikleri test ediyor ve kampanyalarınızı düzenli olarak iyileştiriyoruz.", buttons: [{ label: "Reklam hizmetini inceleyin", to: "/hizmetler", slug: "reklam-yonetimi", primary: true }], covers: ["novera-ofis-mobilyalari", "harun-sandalye"] },
-  { name: "Dijital", tag: "WEB · E-TİCARET · OTOMASYON", title: "Dijitalde işiniz kolaylaşsın.", text: "Web sitenizi ve online mağazanızı kuruyor, tekrarlanan işleri yazılım ve otomasyonla kolaylaştırıyoruz.", buttons: [{ label: "Dijital çözümleri keşfedin", to: "/hizmetler", primary: true }, { label: "İhtiyacınızı anlatın", to: "/teklif" }], covers: ["unal-deutschland", "osmanbey-agriculture"], flow: true },
+  { kind: "single", name: "Ventos", tag: "İÇERİK · REKLAM · WEB · OTOMASYON", title: "Rüzgârı arkanıza alın.", text: "Markanızın içeriklerini üretiyor, reklamlarını yönetiyor, web sitesini kuruyor ve işlerini otomasyonla kolaylaştırıyoruz.", buttons: [{ label: "Çalışmalarımızı inceleyin", to: "/calismalar", primary: true }, { label: "Birlikte çalışalım", to: "/teklif" }], covers: ["gastroyummy"] },
+  { kind: "phone", name: "İçerik", tag: "SOSYAL MEDYA · FOTOĞRAF · VİDEO", title: "Markanızın anlatılacak çok şeyi var.", text: "Ürünlerinizi, mekânınızı ve hikâyenizi fotoğraf, Reels ve tasarımlarla görünür kılıyoruz.", buttons: [{ label: "İçerik çalışmalarını görün", to: "/calismalar", primary: true }], covers: ["dalyy-done", "palmeira-lounge"] },
+  { kind: "ad", name: "Reklam", tag: "META REKLAM YÖNETİMİ", title: "Doğru kişilere ulaşın.", text: "Instagram ve Facebook reklamlarınızı planlıyor, farklı içerikleri test ediyor ve kampanyalarınızı düzenli olarak iyileştiriyoruz.", buttons: [{ label: "Reklam hizmetini inceleyin", to: "/hizmetler", slug: "reklam-yonetimi", primary: true }], covers: ["novera-ofis-mobilyalari"] },
+  { kind: "browser", name: "Dijital", tag: "WEB · E-TİCARET · OTOMASYON", title: "Dijitalde işiniz kolaylaşsın.", text: "Web sitenizi ve online mağazanızı kuruyor, tekrarlanan işleri yazılım ve otomasyonla kolaylaştırıyoruz.", buttons: [{ label: "Dijital çözümleri keşfedin", to: "/hizmetler", primary: true }, { label: "İhtiyacınızı anlatın", to: "/teklif" }], covers: ["unal-deutschland"] },
 ];
 
-function Cover({ slug, eager }: { slug: string; eager: boolean }) {
+function Img({ slug, eager, className }: { slug: string; eager: boolean; className?: string }) {
   const c = getPublishedProject(slug)?.cover;
-  return c ? <ProjectCover cover={c} eager={eager} className="shadow-float" /> : null;
+  if (!c) return null;
+  return <img src={c.src} alt={c.alt} width={c.width} height={c.height} loading={eager ? "eager" : "lazy"} className={cn("h-full w-full object-contain bg-muted", className)} />;
 }
 
 function Visual({ s, first }: { s: Slide; first: boolean }) {
-  const [a = "", ...rest] = s.covers;
-  return (
-    <div className="grid gap-3">
-      <Cover slug={a} eager={first} />
-      <div className="grid grid-cols-2 gap-3">
-        {rest.map((r) => <Cover key={r} slug={r} eager={false} />)}
-        {s.flow && (
-          <div className="flex flex-col justify-center rounded-xl border bg-card p-3 text-sm sm:p-4">
-            <span className="eyebrow text-muted-foreground">Örnek akış</span>
-            <p className="mt-2 font-display font-semibold leading-snug">Talep → Kayıt → Bildirim</p>
+  const [a = "", b = ""] = s.covers;
+  if (s.kind === "phone")
+    return (
+      <div className="flex h-[300px] items-center justify-center gap-4 md:h-[400px]">
+        {[a, b].map((x, i) => (
+          <div key={x} className={cn("h-full max-h-full aspect-[9/18] overflow-hidden rounded-[1.8rem] border-[6px] border-ink bg-ink shadow-float", i === 1 && "hidden translate-y-6 sm:block")}>
+            <div className="h-full overflow-hidden rounded-[1.3rem]"><Img slug={x} eager={false} className="object-cover" /></div>
           </div>
-        )}
+        ))}
       </div>
-    </div>
-  );
+    );
+  if (s.kind === "ad")
+    return (
+      <div className="mx-auto w-full max-w-[340px] overflow-hidden rounded-2xl border bg-card shadow-float">
+        <div className="flex items-center gap-2 p-3"><span className="size-7 rounded-full bg-ink" /><div className="text-xs leading-tight"><p className="font-bold">Örnek reklam</p><p className="text-muted-foreground">Sponsorlu</p></div></div>
+        <div className="aspect-square"><Img slug={a} eager={false} /></div>
+        <div className="flex items-center justify-between border-t p-3 text-xs"><span className="font-semibold">Hedefli kampanya</span><span className="rounded-full bg-ink px-3 py-1 text-ink-foreground">Daha fazla bilgi</span></div>
+      </div>
+    );
+  if (s.kind === "browser")
+    return (
+      <div className="overflow-hidden rounded-xl border bg-card shadow-float">
+        <div className="flex items-center gap-1.5 border-b px-3 py-2">{[0, 1, 2].map((i) => <span key={i} className="size-2.5 rounded-full bg-muted-foreground/40" />)}<span className="ml-3 h-4 flex-1 rounded bg-muted" /></div>
+        <div className="aspect-[3/2] max-h-[360px] w-full"><Img slug={a} eager={false} /></div>
+      </div>
+    );
+  return <div className="mx-auto max-w-[520px]"><ProjectCover cover={getPublishedProject(a)!.cover!} eager={first} className="shadow-float" /></div>;
 }
 
 function useReducedMotion() {
