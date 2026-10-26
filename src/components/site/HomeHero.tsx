@@ -29,8 +29,8 @@ function Visual({ s, first }: { s: Slide; first: boolean }) {
     return (
       <div className="flex h-[300px] items-center justify-center gap-4 md:h-[400px]">
         {[a, b].map((x, i) => (
-          <div key={x} className={cn("h-full max-h-full aspect-[9/18] overflow-hidden rounded-[1.8rem] border-[6px] border-ink bg-ink shadow-float", i === 1 && "hidden translate-y-6 sm:block")}>
-            <div className="h-full overflow-hidden rounded-[1.3rem]"><Img slug={x} eager={false} className="object-cover" /></div>
+          <div key={x} className={cn("h-full max-h-full aspect-[9/16] overflow-hidden rounded-[1.8rem] border-[6px] border-ink bg-ink shadow-float", i === 1 && "hidden translate-y-6 sm:block")}>
+            <div className="h-full overflow-hidden rounded-[1.3rem]"><Img slug={x} eager={false} /></div>
           </div>
         ))}
       </div>
@@ -50,7 +50,7 @@ function Visual({ s, first }: { s: Slide; first: boolean }) {
         <div className="aspect-[3/2] max-h-[360px] w-full"><Img slug={a} eager={false} /></div>
       </div>
     );
-  return <div className="mx-auto max-w-[520px]"><ProjectCover cover={getPublishedProject(a)!.cover!} eager={first} className="shadow-float" /></div>;
+  { const c = getPublishedProject(a)?.cover; return c ? <div className="mx-auto max-w-[520px]"><ProjectCover cover={c} eager={first} className="shadow-float" /></div> : null; }
 }
 
 function useReducedMotion() {
@@ -85,9 +85,9 @@ export function HomeHero() {
     const update = () => {
       raf = 0;
       const h = root.current?.offsetHeight || window.innerHeight;
-      const p = Math.min(Math.max(window.scrollY / h, 0), 1);
-      const max = window.innerWidth < 768 ? 20 : 90;
-      el.style.transform = `translate3d(${-p * max}px,0,0) scale(${1 - p * 0.04})`;
+      const p = Math.min(Math.max(window.scrollY / (h * 0.8), 0), 1);
+      const max = window.innerWidth < 768 ? 60 : 240;
+      el.style.transform = `translate3d(${-p * max}px,0,0) scale(${1 - p * 0.06})`;
     };
     const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
     update();
@@ -115,7 +115,7 @@ export function HomeHero() {
   const go = useCallback((i: number) => { setPlaying(false); setIdx((i + slides.length) % slides.length); }, []);
 
   return (
-    <section ref={root} className="relative overflow-hidden" aria-roledescription="carousel" aria-label="Ventos Digital açılış">
+    <section ref={root} className="relative overflow-x-clip" aria-roledescription="carousel" aria-label="Ventos Digital açılış">
       <WindLines className="text-ink" />
       <div className="container-x relative pt-6 md:pt-10">
         <div ref={word} className="flex items-end gap-3 will-change-transform" aria-hidden>
