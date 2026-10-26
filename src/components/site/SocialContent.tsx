@@ -134,6 +134,9 @@ export function SocialContent({ project: p }: { project: Project }) {
   const videos = items.filter((i) => i.type === "reel" || i.type === "video");
   const photos = items.filter((i) => i.type === "photo" || i.type === "post");
   const both = videos.length > 0 && photos.length > 0;
+  if (videos.length && !photos.length) {
+    return <ReelsCarousel eyebrow="Ürettiğimiz içerikler" title="Bu işletme için hazırladığımız Reels." items={videos.map((v) => ({ url: v.instagramUrl! })).filter((v) => v.url)} link={p.instagramProfileUrl ? { href: p.instagramProfileUrl, label: "Tümünü Instagram'da gör" } : undefined} />;
+  }
   return (
     <section className="container-x py-16">
       <div className="flex flex-wrap items-end justify-between gap-6">
