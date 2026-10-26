@@ -37,9 +37,9 @@ function Visual({ s, first }: { s: Slide; first: boolean }) {
     );
   if (s.kind === "ad")
     return (
-      <div className="mx-auto w-full max-w-[340px] overflow-hidden rounded-2xl border bg-card shadow-float">
+      <div className="mx-auto w-full max-w-[420px] overflow-hidden rounded-2xl border bg-card shadow-float">
         <div className="flex items-center gap-2 p-3"><span className="size-7 rounded-full bg-ink" /><div className="text-xs leading-tight"><p className="font-bold">Örnek reklam</p><p className="text-muted-foreground">Sponsorlu</p></div></div>
-        <div className="aspect-square"><Img slug={a} eager={false} /></div>
+        <div className="aspect-[3/2]"><Img slug={a} eager={false} /></div>
         <div className="flex items-center justify-between border-t p-3 text-xs"><span className="font-semibold">Hedefli kampanya</span><span className="rounded-full bg-ink px-3 py-1 text-ink-foreground">Daha fazla bilgi</span></div>
       </div>
     );
