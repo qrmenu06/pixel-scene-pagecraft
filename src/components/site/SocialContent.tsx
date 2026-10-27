@@ -165,7 +165,7 @@ export function SocialContent({ project: p }: { project: Project }) {
 }
 
 /** Resmi Instagram gömmeleriyle dönen Reels şeridi. Kaydırma, oklar ve yavaş otomatik geçiş. */
-export function ReelsCarousel({ items, title, eyebrow = "Reels", link }: { items: { url: string; client?: string }[]; title: string; eyebrow?: string; link?: { href: string; label: string } }) {
+export function ReelsCarousel({ items, title, eyebrow = "Reels", link }: { items: { url: string; client?: string }[]; title: string; eyebrow?: string; link?: { href: string; label: string } | undefined }) {
   const track = useRef<HTMLDivElement>(null);
   const [hold, setHold] = useState(false);
   const step = (dir: 1 | -1) => {
